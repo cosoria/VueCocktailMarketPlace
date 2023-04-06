@@ -7,3 +7,6 @@ https://preview.colorlib.com/#liquorstore
 Bootstrap theme 
 https://bootswatch.com/sketchy/
 
+Sample REST API 
+https://www.thecocktaildb.com/api.php
+
