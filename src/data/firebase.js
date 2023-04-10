@@ -1,13 +1,15 @@
 import { initializeApp } from "firebase/app";
 
+console.log(import.meta.env.VITE_FIREBASE_API_KEY);
+
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyDc-bPEg0kncFXDUZYWjOj7_6Qn_8cdANo",
-  authDomain: "cosoria-cocktailapp.firebaseapp.com",
-  projectId: "cosoria-cocktailapp",
-  storageBucket: "cosoria-cocktailapp.appspot.com",
-  messagingSenderId: "751307687495",
-  appId: "1:751307687495:web:c938df0abe1bf3224cd362"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID
 };
 
 // Initialize Firebase

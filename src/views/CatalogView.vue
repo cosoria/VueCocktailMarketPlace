@@ -12,9 +12,11 @@
 </template>
 
 <script>
+    import { getAll } from '../data/cocktailRepository';
     import ProductItem from '../components/ProductItem.vue';
 
     import inventory from "../data/products.json";
+
 
     export default {
         name: "CatalogView",
@@ -29,10 +31,15 @@
         mounted() {
             this.products = inventory.cocktails;
             // console.log(this.products);
+            
+            getAll().then((products) => {
+                console.log(products);
+            }).catch((error) => {
+                console.log(error);
+            });
         }
     }
 </script>
 
 <style scoped>
-
 </style>
