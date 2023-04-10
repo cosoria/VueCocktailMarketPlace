@@ -29,11 +29,14 @@
             }
         },
         mounted() {
-            this.products = inventory.cocktails;
+            // this.products = inventory.cocktails;
             // console.log(this.products);
             
-            getAll().then((products) => {
-                console.log(products);
+            getAll().then((cocktails) => {
+                // console.log(cocktails);
+                if(cocktails) {
+                    cocktails.forEach(c => this.products.push(c));
+                }
             }).catch((error) => {
                 console.log(error);
             });

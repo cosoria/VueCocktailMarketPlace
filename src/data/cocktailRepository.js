@@ -9,7 +9,6 @@ export async function getAll() {
   const cocktails = []
   const querySnapshot = await getDocs(collection(useFirestore(), 'cocktails'))
   querySnapshot.forEach((doc) => {
-    console.log(doc.id)
     cocktails.push({ id: doc.id, ...doc.data() })
   })
   return cocktails
