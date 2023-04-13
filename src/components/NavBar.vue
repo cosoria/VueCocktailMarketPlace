@@ -52,6 +52,9 @@
         <form class="d-flex">
           <input class="form-control me-sm-2" type="search" placeholder="Search" />
           <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+          <button class="btn btn-secondary my-2 my-sm-0" type="submit" @click="loginClicked">Login</button>
+          <button class="btn btn-secondary my-2 my-sm-0" type="submit" @click="registerClicked">Register</button>
+          <button class="btn btn-secondary my-2 my-sm-0" type="submit" @click="logoutClicked">Logout</button>
         </form>
       </div>
     </div>
@@ -59,9 +62,27 @@
 </template>
 
 <script>
-    export default {
-        name: "NavBar"
-    }
+  import { logout } from '../data/userRepository';
+
+  export default {
+      name: "NavBar",
+      methods: {
+        loginClicked() {
+          this.$router.push({name: "login"});
+        },
+        registerClicked() {
+          this.$router.push({name: "register"});
+        },
+        logoutClicked() {
+          logout().then(() => {
+            this.$router.push({name: "home"});
+          }).catch((error) => {
+            console.log(error)
+          });
+          
+        },
+      }
+  }
 </script>
 
 <style scoped>

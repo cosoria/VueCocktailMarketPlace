@@ -18,7 +18,7 @@ app.use(VueFire, {
     modules: [
       VueFireFirestoreOptionsAPI(),
       // we will see other modules later on
-      // VueFireAuth(),
+      VueFireAuth(),
     ],
 });
 

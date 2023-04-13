@@ -1,6 +1,6 @@
 <template>
     <div class="col mb-5">
-        <div class="card h-100">
+        <div class="card h-100" @click="cardClick()">
           <!-- Sale badge-->
           <div v-if="isOnSale"
             class="badge bg-dark text-white position-absolute"
@@ -86,6 +86,11 @@
             isOnHand() {
                 return this.inventoryCount > 0;
             }
+        },
+        methods: {
+          cardClick() {
+            this.$emit("productClick", this.id);
+          }
         }
     }
 </script>
