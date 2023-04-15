@@ -20,6 +20,8 @@
 <script>
     import { getAll } from '../data/cocktailRepository';
     import ProductItem from '../components/ProductItem.vue';
+    import { mapStores } from 'pinia';
+    import { useUserStore } from '../stores/userStore';
 
     export default {
         name: "CatalogView",
@@ -30,6 +32,9 @@
             return {
                 products: [],
             }
+        },
+        computed: {
+            ...mapStores(useUserStore)
         },
         methods: {
             productClicked(id) {
@@ -47,6 +52,8 @@
             if(cocktails) {
                  cocktails.forEach(c => this.products.push(c));
             }
+
+            console.log("Catalog: ", this.userStore.getUser);
         }
     }
 </script>

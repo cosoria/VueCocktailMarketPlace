@@ -20,6 +20,8 @@
 
 <script>
     import { login } from '../data/userRepository';
+    import { mapStores } from 'pinia';
+    import { useUserStore } from '../stores/userStore';
 
     export default {
     name: 'LoginView',
@@ -30,12 +32,17 @@
             error: ""
         };
     },
+    computed: {
+        ...mapStores(useUserStore)
+    },
     methods: {
         loginUser() {
             if(this.email && this.password) {
                 console.log("Login User");
                 login(this.email, this.password).then((auth) => {
                     console.log(auth);
+                    this.userStore.login(auth.uid, auth.email, auth.displayName);
+                    console.log("Login: ", this.userStore.getUser);
                     this.$router.push({name: "home"});
                 }).catch((error) => {
                     console.log(error);
@@ -49,7 +56,7 @@
 
 <style scoped>
     .form-signin {
-    max-width: 330px;
-    padding: 15px;
+        max-width: 330px;
+        padding: 15px;
     }
 </style>

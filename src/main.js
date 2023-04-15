@@ -7,6 +7,7 @@ import App from './App.vue';
 import router from './router';
 
 import './assets/bootstrap.css';
+import 'bootstrap-icons/font/bootstrap-icons.css';
 
 const app = createApp(App);
 
@@ -23,4 +24,4 @@ app.use(VueFire, {
 });
 
 const mountedApp = app.mount('#app');
-console.log(mountedApp);
+// console.log(mountedApp);

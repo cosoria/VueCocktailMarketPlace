@@ -20,6 +20,15 @@
                             Add to cart
                         </button>
                     </div>
+                    <div v-if="userStore.isAdmin" class="d-flex my-5">
+                        <button 
+                            class="btn btn-outline-dark flex-shrink-0" 
+                            type="button"
+                            @click.prevent="edit()">
+                            <i class="bi-cart-fill me-1"></i>
+                            Edit
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -28,6 +37,8 @@
 
 <script>
     import { getById } from '../data/cocktailRepository';
+    import { mapStores } from 'pinia';
+    import { useUserStore } from '../stores/userStore';
 
     export default {
         name: "ProductDetailView",
@@ -50,6 +61,12 @@
                 const finalPrice = this.isOnSale ? this.product.salePrice : this.product.price;
                 return finalPrice.toFixed(2);
             },
+            ...mapStores(useUserStore)
+        },
+        methods: {
+            edit() {
+                this.$router.push({name:'product_edit', params: { id: this.id }});
+            }
         },
         async mounted() {
             const cocktail = await getById(this.id);

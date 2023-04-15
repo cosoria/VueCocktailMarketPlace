@@ -16,15 +16,17 @@
       <div class="collapse navbar-collapse" id="navbarColor01">
         <ul class="navbar-nav me-auto">
           <li class="nav-item">
-            <a class="nav-link active" href="/"
+            <RouterLink :to="{ name: 'home'}" class="nav-link">Home</RouterLink>
+            <!-- <a class="nav-link active" href="/"
               >Home
               <span class="visually-hidden">(current)</span>
-            </a>
+            </a> -->
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/catalog">Catalog</a>
+            <RouterLink :to="{ name: 'catalog'}" class="nav-link">Catalog</RouterLink>
+            <!-- <a class="nav-link" href="/catalog">Catalog</a> -->
           </li>
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a class="nav-link" href="#">Pricing</a>
           </li>
           <li class="nav-item">
@@ -47,14 +49,15 @@
               <div class="dropdown-divider"></div>
               <a class="dropdown-item" href="#">Separated link</a>
             </div>
-          </li>
+          </li> -->
         </ul>
         <form class="d-flex">
           <input class="form-control me-sm-2" type="search" placeholder="Search" />
           <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
-          <button class="btn btn-secondary my-2 my-sm-0" type="submit" @click="loginClicked">Login</button>
-          <button class="btn btn-secondary my-2 my-sm-0" type="submit" @click="registerClicked">Register</button>
-          <button class="btn btn-secondary my-2 my-sm-0" type="submit" @click="logoutClicked">Logout</button>
+          <span v-if="userStore.isAuthenticated" class="text-white m-2">{{ userStore.getUser.email }}</span>
+          <button v-if="!userStore.isAuthenticated" class="btn btn-secondary m-2 my-sm-0" type="submit" @click.prevent="loginClicked">Login</button>
+          <button v-if="!userStore.isAuthenticated" class="btn btn-secondary m-2 my-sm-0" type="submit" @click.prevent="registerClicked">Register</button>
+          <button v-if="userStore.isAuthenticated" class="btn btn-secondary m-2 my-sm-0" type="submit" @click.prevent="logoutClicked">Logout</button>
         </form>
       </div>
     </div>
@@ -63,9 +66,22 @@
 
 <script>
   import { logout } from '../data/userRepository';
+  import { mapStores } from 'pinia';
+  import { useUserStore } from '../stores/userStore';
+  import { RouterLink } from 'vue-router';  
 
   export default {
       name: "NavBar",
+      props: {
+        user: {
+          type: Object,
+          required: false,
+          default: null
+        }
+      },
+      computed: {
+        ...mapStores(useUserStore)
+      },
       methods: {
         loginClicked() {
           this.$router.push({name: "login"});
@@ -75,11 +91,11 @@
         },
         logoutClicked() {
           logout().then(() => {
+            this.userStore.logout();
             this.$router.push({name: "home"});
           }).catch((error) => {
             console.log(error)
           });
-          
         },
       }
   }

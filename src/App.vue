@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <NavBar></NavBar>
+    <NavBar :user="userStore.getUser"></NavBar>
     <RouterView />
     <AppFooter></AppFooter>
   </div>
@@ -11,6 +11,8 @@
 import { RouterView } from 'vue-router';
 import NavBar from "./components/NavBar.vue";
 import AppFooter from "./components/AppFooter.vue";
+import { mapStores } from 'pinia';
+import { useUserStore } from './stores/userStore';
 
 export default {
   name: "App",
@@ -18,6 +20,12 @@ export default {
     RouterView,
     NavBar,
     AppFooter
+  },
+  computed: {
+    ...mapStores(useUserStore)
+  },
+  mounted() {
+    console.log("App:", this.userStore.isAuthenticated);
   }
 }
 </script>

@@ -52,9 +52,9 @@ function _createCocktail(cocktail) {
     name: cocktail.name,
     instructions: cocktail.instructions,
     imgUrl: cocktail.imgUrl,
-    inventoryCount: cocktail.inventoryCount,
-    price: cocktail.price,
-    salePrice: cocktail.salePrice
+    inventoryCount: parseInt(cocktail.inventoryCount),
+    price: parseFloat(cocktail.price),
+    salePrice: parseFloat(cocktail.salePrice)
   }
 
   return payload
