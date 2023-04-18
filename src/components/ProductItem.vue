@@ -36,8 +36,11 @@
           <!-- Product actions-->
           <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
             <div class="text-center">
-              <a v-if="isOnHand" class="btn btn-outline-dark mt-auto" href="#">Add to cart</a>
-              <a v-else class="btn btn-outline-dark mt-auto" href="#">View Options</a>
+              <a v-if="isAddMode" class="btn btn-outline-dark mt-auto" href="#">Add</a>
+              <span v-else>
+                <a v-if="isOnHand" class="btn btn-outline-dark mt-auto" href="#">Add to cart</a>
+                <a v-else class="btn btn-outline-dark mt-auto" href="#">View Options</a>
+              </span>
             </div>
           </div>
         </div>
@@ -73,6 +76,11 @@
                 type: Number, 
                 required: false,
                 default: 0
+            },
+            isAddMode: {
+                type: Boolean, 
+                required: false,
+                default: false
             },
         },
         computed: {

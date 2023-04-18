@@ -22,11 +22,11 @@
 </template>
 
 <script>
-    import { getAll } from '../data/cocktailRepository';
     import ProductItem from '../components/ProductItem.vue';
     import ProductSearch from '../components/ProductSearch.vue';
     import { mapStores } from 'pinia';
     import { useUserStore } from '../stores/userStore';
+    import { useInventoryStore } from '../stores/inventoryStore';
     import { searchByFirstLetter } from '../data/cocktailApiRepository'
 
     export default {
@@ -41,13 +41,15 @@
             }
         },
         computed: {
-            ...mapStores(useUserStore)
+            ...mapStores(useUserStore, useInventoryStore)
         },
         methods: {
             productClicked(id) {
-                // console.log("CatologView:", id);
+                const p = this.products.find(p => p.id == id);
+                console.log(p);
+                this.inventoryStore.setProduct(p);
                 this.$router.push({
-                    name:"product_detail", 
+                    name:"inventory_edit", 
                     params: { "id": id }
                 });
             },
@@ -58,15 +60,15 @@
                 }).catch(e => console.log(e));
             },
         },
-        async mounted() {
-            const cocktails = await getAll();
-            console.log(cocktails);
+        mounted() {
+            // const cocktails = await getAll();
+            // console.log(cocktails);
 
-            if(cocktails) {
-                 cocktails.forEach(c => this.products.push(c));
-            }
+            // if(cocktails) {
+            //      cocktails.forEach(c => this.products.push(c));
+            // }
 
-            console.log("Catalog: ", this.userStore.getUser);
+            // console.log("Catalog: ", this.userStore.getUser);
         }
     }
 </script>

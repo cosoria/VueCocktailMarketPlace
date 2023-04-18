@@ -16,14 +16,18 @@
       <div class="collapse navbar-collapse" id="navbarColor01">
         <ul class="navbar-nav me-auto">
           <li class="nav-item">
-            <RouterLink :to="{ name: 'home'}" class="nav-link">Home</RouterLink>
+            <RouterLink :to="{name: 'home'}" class="nav-link">Home</RouterLink>
             <!-- <a class="nav-link active" href="/"
               >Home
               <span class="visually-hidden">(current)</span>
             </a> -->
           </li>
           <li class="nav-item">
-            <RouterLink :to="{ name: 'catalog'}" class="nav-link">Catalog</RouterLink>
+            <RouterLink :to="{name: 'catalog'}" class="nav-link">Catalog</RouterLink>
+            <!-- <a class="nav-link" href="/catalog">Catalog</a> -->
+          </li>
+          <li class="nav-item" v-if="userStore.isAuthenticated">
+            <RouterLink :to="{name: 'inventory'}" class="nav-link">Inventory</RouterLink>
             <!-- <a class="nav-link" href="/catalog">Catalog</a> -->
           </li>
           <!-- <li class="nav-item">

@@ -1,47 +1,29 @@
 <template>
-        <!-- Product section-->
-        <section v-if="product" class="py-5">
-        <div class="container px-4 px-lg-5 my-5">
-            <div class="row gx-4 gx-lg-5 align-items-center">
-                <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" :src="product.imgUrl" alt="..." /></div>
-                <div class="col-md-6">
-                    <div class="small mb-1">SKU: CK-{{ product.id.toUpperCase() }}</div>
-                    <h1 class="display-5 fw-bolder">{{ product.name }}</h1>
-                    <div class="fs-5 mb-5">
-                        <span v-if="isOnSale" class="text-muted text-decoration-line-through">${{ product.price.toFixed(2) }}</span>
-                        <span v-if="isOnSale" class="mx-1">-</span>
-                        <span>${{ originalPrice }}</span>
-                    </div>
-                    <p class="lead">{{ product.instructions }}</p>
-                    <div class="d-flex">
-                        <input class="form-control text-center me-3" id="inputQuantity" type="num" value="1" style="max-width: 3rem" />
-                        <button class="btn btn-outline-dark flex-shrink-0" type="button">
-                            <i class="bi-cart-fill me-1"></i>
-                            Add to cart
-                        </button>
-                    </div>
-                    <div v-if="userStore.isAdmin" class="d-flex my-5">
-                        <button 
-                            class="btn btn-outline-dark flex-shrink-0" 
-                            type="button"
-                            @click.prevent="edit()">
-                            <i class="bi-cart-fill me-1"></i>
-                            Edit
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    <!-- Product section-->
+    <ProductDetail 
+        v-if="product"
+        :id="product.id"
+        :name="product.name"
+        :instructions="product.instructions"
+        :price="product.price"
+        :salePrice="product.salePrice"
+        :imgUrl="product.imgUrl"
+        :inventoryCount="product.inventoryCount"
+        :isAdmin="false"
+    ></ProductDetail>
 </template>
 
 <script>
     import { getById } from '../data/cocktailRepository';
     import { mapStores } from 'pinia';
     import { useUserStore } from '../stores/userStore';
+    import ProductDetail from '../components/ProductDetail.vue';
 
     export default {
         name: "ProductDetailView",
+        components: {
+            ProductDetail
+        },
         props: {
             id: {
                 type: String, 
