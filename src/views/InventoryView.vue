@@ -4,7 +4,7 @@
             @search="onSearchProduct($event)"
         ></ProductSearch>
         <div v-if="products.length > 0" class="row gx-4 gx-lg-5 mt-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-            <ProductItem v-for="p in products" :key="p.id"
+            <ProductItem v-for="p in page" :key="p.id"
                 :id="p.id"
                 :name="p.name"
                 :imageUrl="p.imgUrl"
@@ -17,6 +17,23 @@
         </div>
         <div v-else class="row gx-4 gx-lg-5 mt-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
             No products available
+        </div>
+        <div v-if="page.length" class="d-flex justify-content-center">
+            <nav aria-label="Page navigation example" class="mt-3">
+            <ul class="pagination">
+                <li class="page-item"><a 
+                    @click.prevent="previousPage()" 
+                    class="page-link" href="#">Previous</a></li>
+                <li v-for="p in maxPages" :key="p" 
+                    class="page-item" 
+                    :class="{'active': p == pageIndex}"  
+                    @click.prevent="gotoPage(p)"
+                ><a class="page-link" href="#">{{ p }}</a></li>
+                <li class="page-item"><a 
+                    @click.prevent="nextPage()" 
+                    class="page-link" href="#">Next</a></li>
+            </ul>
+            </nav>
         </div>
     </div>
 </template>
@@ -37,6 +54,10 @@
         },
         data() {
             return {
+                page: [],
+                pageIndex: 1,
+                pageSize: 4,
+                maxPages: 1,
                 products: [],
             }
         },
@@ -53,10 +74,33 @@
                     params: { "id": id }
                 });
             },
+            gotoPage(p) {
+                this.pageIndex = p;
+                this.updatePage();
+            },
+            previousPage() {
+                console.log(this.pageIndex);
+                this.pageIndex = this.pageIndex <= 1 ? 1 : this.pageIndex - 1;
+                this.updatePage();
+            },
+            nextPage() {
+                console.log(this.pageIndex);
+                console.log((this.products.length / this.pageSize));
+                this.pageIndex = this.maxPages == this.pageIndex ? this.pageIndex : this.pageIndex + 1;
+                this.updatePage();
+            },
+            updatePage() {
+                let start = (this.pageIndex - 1) * this.pageSize;
+                let end = start + this.pageSize;
+                this.page = this.products.slice(start, end);
+            },
             onSearchProduct(query) {
                 searchByFirstLetter(query).then((r) => {
                     console.log(r);
                     this.products = r;
+                    this.maxPages = Math.ceil(this.products.length / this.pageSize);
+                    this.updatePage();
+                    console.log(this.page);
                 }).catch(e => console.log(e));
             },
         },
