@@ -55,7 +55,7 @@
                 <label for="floatingInput">Sale Price</label>
             </div>
 
-            <button class="w-100 btn btn-lg btn-primary mt-5" type="submit" @click.prevent="update()">Update</button>
+            <button class="w-100 btn btn-lg btn-primary mt-5" type="submit" @click.prevent="update()">{{ isInventoryEdit ? 'Add' : 'Update' }}</button>
         </div>
     </div>
     <div v-else>
@@ -65,7 +65,9 @@
 
 <script>
 
-    import { getById, update } from '../data/cocktailRepository';
+    import { getById, update, add } from '../data/cocktailRepository';
+    import { mapStores } from 'pinia';
+    import { useInventoryStore } from '../stores/inventoryStore';
 
     export default {
         name: "ProductEditView",
@@ -81,13 +83,27 @@
                 fileName: "",
             };
         },
+        computed: {
+            ...mapStores(useInventoryStore),
+            isInventoryEdit() {
+                return this.$route.name == "inventory_edit";
+            }
+        },
         methods: {
             update() {
-                console.log("Update product");
-                update(this.product).then(() => {
-                    console.log("updated successfully");
-                    this.$router.push({name: "product_detail", params: { id: this.id }})
-                }).catch((error) => console.log(error));
+                if(this.isInventoryEdit) {
+                    add(this.product).then(() => {
+                        console.log("updated successfully");
+                        this.$router.push({name: "inventory"});
+                    }).catch(error => console.log(error));
+
+                } else {
+                    console.log("Update product");
+                    update(this.product).then(() => {
+                        console.log("updated successfully");
+                        this.$router.push({name: "product_detail", params: { id: this.id }})
+                    }).catch((error) => console.log(error));
+                }
             },
             uploadFile() {
                 console.log(this.$refs.fileUpload.files[0]);
@@ -103,7 +119,14 @@
             }
         },
         async mounted() {
-            const cocktail = await getById(this.id);
+
+            let cocktail = null;
+            if(this.isInventoryEdit) {
+                cocktail = this.inventoryStore.getProduct;
+            } else {
+                cocktail = await getById(this.id);
+            }
+                        
             if(cocktail?.id) {
                 this.product = cocktail;
                 this.fileName = this.product.imgUrl;

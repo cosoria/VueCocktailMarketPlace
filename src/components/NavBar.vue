@@ -24,11 +24,12 @@
           </li>
           <li class="nav-item">
             <RouterLink :to="{name: 'catalog'}" class="nav-link">Catalog</RouterLink>
-            <!-- <a class="nav-link" href="/catalog">Catalog</a> -->
           </li>
           <li class="nav-item" v-if="userStore.isAuthenticated">
             <RouterLink :to="{name: 'inventory'}" class="nav-link">Inventory</RouterLink>
-            <!-- <a class="nav-link" href="/catalog">Catalog</a> -->
+          </li>
+          <li class="nav-item" v-if="!userStore.isAuthenticated">
+            <RouterLink :to="{name: 'cart'}" class="nav-link">Shopping Cart</RouterLink>
           </li>
           <!-- <li class="nav-item">
             <a class="nav-link" href="#">Pricing</a>

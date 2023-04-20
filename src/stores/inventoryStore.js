@@ -3,6 +3,8 @@ import { defineStore } from 'pinia';
 export const useInventoryStore =  defineStore('inventory', {
     state() {
         return {
+            query: "",
+            products: [],
             product: {
                 id: "",
                 name: "",
@@ -18,6 +20,12 @@ export const useInventoryStore =  defineStore('inventory', {
         getProduct() {
             return this.product;
         },
+        getProducts() {
+            return this.products;
+        },
+        getQuery() {
+            return this.query;
+        },
     },
     actions: {
         setProduct(product) {
@@ -28,6 +36,12 @@ export const useInventoryStore =  defineStore('inventory', {
             this.product.inventoryCount = product.inventoryCount;
             this.product.price = product.price;
             this.product.salePrice = product.salePrice;
+        },
+        setProducts(products) {
+            this.products = products
+        },
+        setQuery(query) {
+            this.query = query;
         }
     }
 });

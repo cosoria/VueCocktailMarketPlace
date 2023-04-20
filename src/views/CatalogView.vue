@@ -1,8 +1,5 @@
 <template>
     <div>
-        <ProductSearch
-            @search="onSearchProduct($event)"
-        ></ProductSearch>
         <div v-if="products.length > 0" class="row gx-4 gx-lg-5 mt-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
             <ProductItem v-for="p in products" :key="p.id"
                 :id="p.id"
@@ -24,16 +21,13 @@
 <script>
     import { getAll } from '../data/cocktailRepository';
     import ProductItem from '../components/ProductItem.vue';
-    import ProductSearch from '../components/ProductSearch.vue';
     import { mapStores } from 'pinia';
     import { useUserStore } from '../stores/userStore';
-    import { searchByFirstLetter } from '../data/cocktailApiRepository'
 
     export default {
         name: "CatalogView",
         components: {
             ProductItem,
-            ProductSearch,
         },
         data() {
             return {
@@ -51,12 +45,6 @@
                     params: { "id": id }
                 });
             },
-            onSearchProduct(query) {
-                searchByFirstLetter(query).then((r) => {
-                    console.log(r);
-                    this.products = r;
-                }).catch(e => console.log(e));
-            },
         },
         async mounted() {
             const cocktails = await getAll();
@@ -65,8 +53,6 @@
             if(cocktails) {
                  cocktails.forEach(c => this.products.push(c));
             }
-
-            console.log("Catalog: ", this.userStore.getUser);
         }
     }
 </script>

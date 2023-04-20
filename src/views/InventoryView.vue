@@ -47,7 +47,7 @@
     import { searchByFirstLetter } from '../data/cocktailApiRepository'
 
     export default {
-        name: "CatalogView",
+        name: "InventoryView",
         components: {
             ProductItem,
             ProductSearch,
@@ -59,6 +59,7 @@
                 pageSize: 4,
                 maxPages: 1,
                 products: [],
+                query: "",
             }
         },
         computed: {
@@ -96,23 +97,19 @@
             },
             onSearchProduct(query) {
                 searchByFirstLetter(query).then((r) => {
-                    console.log(r);
+                    this.inventoryStore.setProducts(r);
+                    this.inventoryStore.setQuery(query);
                     this.products = r;
                     this.maxPages = Math.ceil(this.products.length / this.pageSize);
                     this.updatePage();
-                    console.log(this.page);
                 }).catch(e => console.log(e));
             },
         },
         mounted() {
-            // const cocktails = await getAll();
-            // console.log(cocktails);
-
-            // if(cocktails) {
-            //      cocktails.forEach(c => this.products.push(c));
-            // }
-
-            // console.log("Catalog: ", this.userStore.getUser);
+            this.products = this.inventoryStore.getProducts;
+            this.query = this.inventoryStore.getQuery;
+            this.maxPages = Math.ceil(this.products.length / this.pageSize);
+            this.updatePage();
         }
     }
 </script>

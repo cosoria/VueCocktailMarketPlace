@@ -10,6 +10,7 @@
         :imgUrl="product.imgUrl"
         :inventoryCount="product.inventoryCount"
         :isAdmin="false"
+        @addToCart="addToCart($event)"
     ></ProductDetail>
 </template>
 
@@ -17,6 +18,7 @@
     import { getById } from '../data/cocktailRepository';
     import { mapStores } from 'pinia';
     import { useUserStore } from '../stores/userStore';
+    import { useCartStore } from '../stores/cartStore';
     import ProductDetail from '../components/ProductDetail.vue';
 
     export default {
@@ -43,12 +45,15 @@
                 const finalPrice = this.isOnSale ? this.product.salePrice : this.product.price;
                 return finalPrice.toFixed(2);
             },
-            ...mapStores(useUserStore)
+            ...mapStores(useUserStore, useCartStore)
         },
         methods: {
             edit() {
                 this.$router.push({name:'product_edit', params: { id: this.id }});
-            }
+            },
+            addToCart(payload) {
+                this.cartStore.addItem(payload);
+            },
         },
         async mounted() {
             const cocktail = await getById(this.id);

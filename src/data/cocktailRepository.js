@@ -29,7 +29,7 @@ export async function add(cocktail) {
   const payload = _createCocktail(cocktail)
   const docRef = await addDoc(collection(useFirestore(), 'cocktails'), payload)
 
-  return { id: docRef.id, ...docRef.data() }
+  return { id: docRef.id, ...payload }
 }
 
 export async function update(cocktail) {

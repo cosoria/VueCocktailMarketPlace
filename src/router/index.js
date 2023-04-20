@@ -5,6 +5,7 @@ import InventoryView from '../views/InventoryView.vue';
 import ProductDetailView from '../views/ProductDetailView.vue';
 import ProductEditView from '../views/ProductEditView.vue';
 import LoginView from '../views/LoginView.vue';
+import CartView from '../views/CartView.vue';
 import RegisterView from '../views/RegisterView.vue';
 import NotFoundView from '../views/NotFoundView.vue';
 
@@ -58,6 +59,12 @@ const router = createRouter({
       component: ProductEditView,
       props: true,
       meta: { auth: true },
+    },
+    {
+      path: '/cart',
+      name: 'cart',
+      component: CartView,
+      meta: { auth: false },
     },
     {
       path: '/login',
