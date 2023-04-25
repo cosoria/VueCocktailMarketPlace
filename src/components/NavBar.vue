@@ -57,8 +57,10 @@
           </li> -->
         </ul>
         <form class="d-flex">
+          <!-- 
           <input class="form-control me-sm-2" type="search" placeholder="Search" />
-          <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+          <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button> 
+          -->
           <span v-if="userStore.isAuthenticated" class="text-white m-2">{{ userStore.getUser.email }}</span>
           <button v-if="!userStore.isAuthenticated" class="btn btn-secondary m-2 my-sm-0" type="submit" @click.prevent="loginClicked">Login</button>
           <button v-if="!userStore.isAuthenticated" class="btn btn-secondary m-2 my-sm-0" type="submit" @click.prevent="registerClicked">Register</button>

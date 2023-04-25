@@ -5,17 +5,25 @@
 
     <label for="email" class="form-label mt-3">Email</label>
     <input
-      v-model="email"
-      type="email"
-      class="form-control"
-      id="email"
-      placeholder="name@example.com"
-      required=""
+        v-model="email"
+        type="email"
+        class="form-control"
+        id="email"
+        placeholder="name@example.com"
+        required=""
+        @keyup.enter="loginUser()"
     />
     <div class="invalid-feedback">Valid email is required.</div>
 
     <label for="password" class="form-label mt-3">Password</label>
-    <input v-model="password" type="password" class="form-control" id="password" required="" />
+    <input 
+        v-model="password" 
+        type="password" 
+        class="form-control" 
+        id="password" 
+        required="" 
+        @keyup.enter="loginUser()"
+    />
     <div class="invalid-feedback">Valid password is required.</div>
 
     <div class="form-check mt-3">
